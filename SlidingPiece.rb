@@ -2,11 +2,7 @@ require_relative 'Piece.rb'
 
 class SlidingPiece < Piece
 
-  def initialize
-    super
-  end
-
-  def moves(moves_rookwise, moves_diagonally)
+  def moves
     moves = []
 
     diffs = move_dirs

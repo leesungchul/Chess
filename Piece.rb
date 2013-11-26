@@ -1,5 +1,6 @@
 class Piece
 
+
   def initialize(pos, color, board)
     @pos = pos
     @color = color
@@ -13,6 +14,15 @@ class Piece
   def y
     pos[1]
   end
+
+  def to_s
+    if @color == :white
+      white_symbol
+    else
+      black_symbol
+    end
+  end
+
 
 end
 

@@ -10,4 +10,6 @@ class Board
     grid[y][x]
   end
 
+
+
 end
