@@ -12,7 +12,7 @@ class SlidingPiece < Piece
       while true
         x2, y2 = x2 + dx, y2 + dy
 
-        contents = board[x2,y2]
+        contents = @board[[x2,y2]]
         if contents == :empty
           moves << [x2,y2]
         elsif contents.nil?
