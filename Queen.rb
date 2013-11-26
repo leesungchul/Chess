@@ -14,5 +14,4 @@ class Queen < SlidingPiece
   def black_symbol
     "♛"
   end
-
 end

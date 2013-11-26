@@ -18,5 +18,4 @@ class SteppingPiece
     end
     moves
   end
-
 end

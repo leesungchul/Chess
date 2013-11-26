@@ -6,6 +6,11 @@ class Bishop < SlidingPiece
     [[1,1], [1,-1], [-1,1], [-1,-1]]
   end
 
-  WHITE_SYMBOL = "♗"
-  BLACK_SYMBOL = "♝"
+  def white_symbol
+    "♗"
+  end
+
+  def black_symbol
+    "♝"
+  end
 end

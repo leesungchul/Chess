@@ -1,7 +1,6 @@
 require_relative 'Piece.rb'
 
 class SlidingPiece < Piece
-
   def moves
     moves = []
 

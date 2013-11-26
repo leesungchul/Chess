@@ -6,7 +6,11 @@ class Rook < SlidingPiece
     [[0,1], [0,-1], [1,0], [-1,0]]
   end
 
-  WHITE_SYMBOL = "♖"
-  BLACK_SYMBOL = "♜"
+  def white_symbol
+    "♖"
+  end
 
+  def black_symbol
+    "♜"
+  end
 end

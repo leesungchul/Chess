@@ -1,6 +1,4 @@
 class Piece
-
-
   def initialize(pos, color, board)
     @pos = pos
     @color = color
@@ -22,8 +20,4 @@ class Piece
       black_symbol
     end
   end
-
-
 end
-
-
