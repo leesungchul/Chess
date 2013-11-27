@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "colorize"
+
 `ls`.split("\n").each do |file|
   next if file == "board.rb" or file == "game.rb"
   require_relative file
@@ -15,7 +16,6 @@ class Board
     @cursor_y = 0
     @start_x = nil
     @start_y = nil
-
 
     make_symmetrical_pieces(Bishop, 2, 0)
     make_symmetrical_pieces(Knight, 1, 0)
@@ -55,19 +55,6 @@ class Board
     move_piece([self.start_x,self.start_y],[self.cursor_x,self.cursor_y], color)
   end
 
-  def make_piece(piece_class,x,y, color)
-    self[[x,y]] = piece_class.new([x,y], color, self)
-  end
-
-
-
-  def make_symmetrical_pieces(piece_class, x, y)
-    make_piece(piece_class, x, y, :black)
-    make_piece(piece_class, 7-x, y, :black)
-    make_piece(piece_class, x, 7-y, :white)
-    make_piece(piece_class, 7-x, 7-y, :white)
-  end
-
   def [](coords)
     x, y = coords
     return nil unless x.between?(0,7) && y.between?(0,7)
@@ -79,28 +66,21 @@ class Board
     @grid[y][x] = value
   end
 
-
   def render
-    puts "  0 1 2 3 4 5 6 7 "
+    puts "  A B C D E F G H"
     @grid.each_with_index do |row, y|
-      print "#{y} "
+      print "#{8-y} "
       row.each_with_index do |square, x|
-        if square == :empty
-          string = " "
-        else
-          string = square.to_s
-        end
+        string = (square == :empty ? "  " : square.to_s + " ")
 
-        if [x,y] == [self.start_x, self.start_y]
-          string = string.blink
-        end
+        string = string.blink if [x,y] == [self.start_x, self.start_y]
 
         if [x,y] == [cursor_x, cursor_y]
-          print (string+" ").on_red
+          print string.on_red
         elsif (x+y) % 2 == 0
-          print (string+" ").on_white
+          print string.on_white
         else
-          print (string+" ").on_black
+          print string.on_black
         end
       end
       puts
@@ -122,11 +102,8 @@ class Board
       duped_grid << new_row
     end
     out.grid = duped_grid
-    out.cursor_x = cursor_x
-    out.cursor_y = cursor_y
-    out.start_x = start_x
-    out.start_y = start_y
-
+    out.cursor_x, out.cursor_y = cursor_x, cursor_y
+    out.start_x, out.start_y = start_x, start_y
     out
   end
 
@@ -144,24 +121,38 @@ class Board
     self[end_pos].pos = end_pos
   end
 
-  def get_team_pieces(color)
-    @grid.flatten.select { |x| x != :empty && x.color == color }
-  end
-
-  def get_enemy_pieces(color)
-    @grid.flatten.select { |x| x != :empty && x.color != color }
-  end
-
   def check?(color)
     enemy_pieces = get_enemy_pieces(color)
     enemy_pieces.map(&:moves).flatten(1).include?(king_pos(color))
   end
 
-  def king_pos(color)
-    get_team_pieces(color).select { |p| p.is_a?(King) }.first.pos
-  end
-
   def checkmate?(color)
     get_team_pieces(color).map(&:valid_moves).flatten(1).empty?
   end
+
+  private
+
+    def make_piece(piece_class,x,y, color)
+      self[[x,y]] = piece_class.new([x,y], color, self)
+    end
+
+    def make_symmetrical_pieces(piece_class, x, y)
+      make_piece(piece_class, x, y, :black)
+      make_piece(piece_class, 7-x, y, :black)
+      make_piece(piece_class, x, 7-y, :white)
+      make_piece(piece_class, 7-x, 7-y, :white)
+    end
+
+    def king_pos(color)
+      get_team_pieces(color).select { |p| p.is_a?(King) }.first.pos
+    end
+
+    def get_team_pieces(color)
+      @grid.flatten.select { |x| x != :empty && x.color == color }
+    end
+
+    def get_enemy_pieces(color)
+      @grid.flatten.select { |x| x != :empty && x.color != color }
+    end
+
 end
