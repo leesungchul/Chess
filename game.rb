@@ -1,5 +1,6 @@
 require_relative "board.rb"
-require_relative "player.rb"
+require_relative "local_player.rb"
+require_relative "remote_player.rb"
 require_relative "networking.rb"
 
 class Game
@@ -18,7 +19,7 @@ class Game
     until @board.checkmate?(current_player.color)
       @board.render
       begin
-        start_pos, end_pos = current_player.get_move(@board, position)
+        start_pos, end_pos = current_player.get_move(@board, @position)
         @board.move_piece(start_pos, end_pos, current_player.color)
       rescue RuntimeError => error
         puts error.message

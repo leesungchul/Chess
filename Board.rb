@@ -1,11 +1,7 @@
 # encoding: utf-8
 
 require "colorize"
-
-`ls`.split("\n").each do |file|
-  next if file == "board.rb" or file == "game.rb"
-  require_relative file
-end
+require_relative "required_pieces"
 
 class Board
   attr_accessor :grid, :cursor_x, :cursor_y, :start_x, :start_y

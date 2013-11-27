@@ -7,7 +7,6 @@ def client
   begin
     server = TCPSocket.open('10.0.1.48', 8081)
   rescue => error
-    puts error
     retry
   end
 
