@@ -3,6 +3,7 @@ require_relative "queen.rb"
 require_relative "rook.rb"
 require_relative "king.rb"
 require_relative "knight.rb"
+require_relative "pawn.rb"
 
 class Board
   def initialize
@@ -10,6 +11,7 @@ class Board
     self[[4,5]] = Queen.new([4,5], :white, self)
     self[[0,5]] = Rook.new([0,5], :black, self)
     self[[3,1]] = King.new([3,1], :black, self)
+    self[[4,2]] = Pawn.new([4,2], :white, self)
   end
 
   def [](coords)
