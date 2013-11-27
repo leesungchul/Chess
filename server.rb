@@ -1,6 +1,6 @@
 require 'socket'               # Get sockets from stdlib
 
-server = TCPServer.open(2000)  # Socket to listen on port 2000
+server = TCPServer.open(8081)  # Socket to listen on port 2000
 client = server.accept       # Wait for a client to connect
 
 loop {                         # Servers run forever
