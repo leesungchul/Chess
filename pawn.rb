@@ -20,7 +20,6 @@ class Pawn < Piece
     moves << [x+1, y + @dy] if check_diagonal(x + 1, y + @dy)
     moves << [x-1, y + @dy] if check_diagonal(x - 1, y + @dy)
     moves
-    p moves
   end
 
   def check_diagonal(x_diag, y_diag)

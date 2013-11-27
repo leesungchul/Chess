@@ -1,17 +1,35 @@
 require "colorize"
-require_relative "queen.rb"
-require_relative "rook.rb"
-require_relative "king.rb"
-require_relative "knight.rb"
-require_relative "pawn.rb"
+`ls`.split("\n").each do |file|
+  next if file == "board.rb"
+  require_relative file
+end
 
 class Board
   def initialize
     @grid = Array.new(8) { Array.new(8) { :empty } }
-    self[[4,5]] = Queen.new([4,5], :white, self)
-    self[[0,5]] = Rook.new([0,5], :black, self)
-    self[[3,1]] = King.new([3,1], :black, self)
-    self[[4,2]] = Pawn.new([4,2], :white, self)
+
+    make_symmetrical_pieces(Bishop, 2, 0)
+    make_symmetrical_pieces(Knight, 1, 0)
+    make_symmetrical_pieces(Rook, 0, 0)
+    (0..3).each do |x|
+      make_symmetrical_pieces(Pawn, x, 1)
+    end
+
+    make_piece(King, 4, 0, :black)
+    make_piece(King, 3, 7, :white)
+    make_piece(Queen, 3, 0, :black)
+    make_piece(Queen, 4, 7, :white)
+  end
+
+  def make_piece(piece_class,x,y, color)
+    self[[x,y]] = piece_class.new([x,y], color, self)
+  end
+
+  def make_symmetrical_pieces(piece_class, x, y)
+    make_piece(piece_class, x, y, :black)
+    make_piece(piece_class, 7-x, y, :black)
+    make_piece(piece_class, x, 7-y, :white)
+    make_piece(piece_class, 7-x, 7-y, :white)
   end
 
   def [](coords)
@@ -58,7 +76,7 @@ class Board
   def move_piece!(start_pos, end_pos)
     self[end_pos] = self[start_pos]
     self[start_pos] = :empty
-    piece.pos = end_pos
+    self[end_pos].pos = end_pos
   end
 
   def get_team_pieces(color)
@@ -78,12 +96,10 @@ class Board
     get_team_pieces(color).select { |p| p.is_a?(King) }.first.pos
   end
 
-  def checkmate?
+  def checkmate?(color)
+    get_team_pieces(color).map(&:valid_moves).flatten(1).empty?
   end
-
-
 end
 
 b = Board.new
 b.render
-p b.check?(:black)

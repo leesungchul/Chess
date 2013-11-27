@@ -31,7 +31,7 @@ class Piece
   def valid_moves
     moves.select do |move|
       dup_board = @board.dup
-      dup_board.move_piece!(start_pos, end_pos)
+      dup_board.move_piece!(pos, move)
       ! dup_board.check?(self.color)
     end
   end

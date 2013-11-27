@@ -12,7 +12,6 @@ class SteppingPiece < Piece
       step_x, step_y = step
       x2, y2 = x + step_x, y + step_y
       contents = @board[[x2, y2]]
-      p [contents]
       if contents && (contents == :empty || contents.color != self.color)
         moves << [x2, y2]
       end
