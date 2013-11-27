@@ -5,6 +5,6 @@ class RemotePlayer
 
   def get_move(board, position)
     position == :server ? (socket = server) : (socket = client)
-    eval(socket.recv)
+    eval(recv(socket))
   end
 end

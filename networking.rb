@@ -7,6 +7,7 @@ def client
   begin
     server = TCPSocket.open('10.0.1.48', 8081)
   rescue => error
+    puts error
     retry
   end
 
@@ -22,6 +23,6 @@ def recv(place)
   place.recv(100)
 end
 
-def send(place,str)
+def send_msg(place,str)
   place.send(str,0)
 end
