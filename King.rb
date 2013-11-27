@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "SteppingPiece.rb"
+require_relative "stepping_piece.rb"
 
 class King < SteppingPiece
   def steps

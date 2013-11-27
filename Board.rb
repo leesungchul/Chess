@@ -1,12 +1,15 @@
 require "colorize"
-require_relative "Queen.rb"
-require_relative "Rook.rb"
+require_relative "queen.rb"
+require_relative "rook.rb"
+require_relative "king.rb"
+require_relative "knight.rb"
 
 class Board
   def initialize
     @grid = Array.new(8) { Array.new(8) { :empty } }
     self[[4,5]] = Queen.new([4,5], :white, self)
-    self[[0,5]] = Rook.new([3,5], :black, self)
+    self[[0,5]] = Rook.new([0,5], :black, self)
+    self[[3,1]] = King.new([3,1], :black, self)
   end
 
   def [](coords)
@@ -42,21 +45,43 @@ class Board
     end
   end
 
-  def move_piece(start_pos, end_pos)
+  def move_piece(start_pos, end_pos, color)
     raise RuntimeError.new("Empty Square") if self[start_pos] == :empty
     raise RuntimeError.new("Outside of Grid") if self[start_pos].nil?
     piece = self[start_pos]
-    raise RuntimeError.new("Invalid Move") unless piece.moves.include?(end_pos)
+    raise RuntimeError.new("Invalid Move") unless piece.valid_moves.include?(end_pos)
+    self.move_piece!(start_pos, end_pos)
+  end
+
+  def move_piece!(start_pos, end_pos)
     self[end_pos] = self[start_pos]
     self[start_pos] = :empty
     piece.pos = end_pos
   end
 
+  def get_team_pieces(color)
+    @grid.flatten.select { |x| x != :empty && x.color == color }
+  end
+
+  def get_enemy_pieces(color)
+    @grid.flatten.select { |x| x != :empty && x.color != color }
+  end
+
+  def check?(color)
+    enemy_pieces = get_enemy_pieces(color)
+    enemy_pieces.map(&:moves).flatten(1).include?(king_pos(color))
+  end
+
+  def king_pos(color)
+    get_team_pieces(color).select { |p| p.is_a?(King) }.first.pos
+  end
+
+  def checkmate?
+  end
 
 
 end
 
 b = Board.new
 b.render
-b.move_piece([4,5],[0,5])
-b.render
+p b.check?(:black)

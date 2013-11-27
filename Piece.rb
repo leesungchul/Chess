@@ -23,4 +23,17 @@ class Piece
       black_symbol
     end
   end
+
+  def moves
+    raise NotImplementedError
+  end
+
+  def valid_moves
+    moves.select do |move|
+      dup_board = @board.dup
+      dup_board.move_piece!(start_pos, end_pos)
+      ! dup_board.check?(self.color)
+    end
+  end
+
 end

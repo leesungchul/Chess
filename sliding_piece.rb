@@ -1,6 +1,11 @@
-require_relative 'Piece.rb'
+require_relative 'piece.rb'
 
 class SlidingPiece < Piece
+
+  def move_dirs
+    raise NotImplementedError
+  end
+
   def moves
     moves = []
 

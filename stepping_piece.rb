@@ -1,9 +1,9 @@
-require_relative "Piece.rb"
+require_relative "piece.rb"
 
-class SteppingPiece
+class SteppingPiece < Piece
 
-  def initialize
-    super
+  def steps
+    raise NotImplementedError
   end
 
   def moves
@@ -12,7 +12,8 @@ class SteppingPiece
       step_x, step_y = step
       x2, y2 = x + step_x, y + step_y
       contents = @board[[x2, y2]]
-      if contents == :empty || contents.color != self.color
+      p [contents]
+      if contents && (contents == :empty || contents.color != self.color)
         moves << [x2, y2]
       end
     end

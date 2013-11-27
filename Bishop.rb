@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "SlidingPiece.rb"
+require_relative "sliding_piece.rb"
 
 class Bishop < SlidingPiece
   def move_dirs
