@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "colorize"
 `ls`.split("\n").each do |file|
   next if file == "board.rb" or file == "game.rb"
@@ -23,34 +25,41 @@ class Board
     end
 
     make_piece(King, 4, 0, :black)
-    make_piece(King, 3, 7, :white)
+    make_piece(King, 4, 7, :white)
     make_piece(Queen, 3, 0, :black)
-    make_piece(Queen, 4, 7, :white)
+    make_piece(Queen, 3, 7, :white)
   end
 
   def up
-    cursor_y = (cursor_y - 1)%8
+    self.cursor_y = (cursor_y - 1)%8
   end
 
   def down
-    cursor_y = (cursor_y + 1)%8
+    self.cursor_y = (cursor_y + 1)%8
   end
 
   def left
-    cursor_x = (cursor_x - 1)%8
+    self.cursor_x = (cursor_x - 1)%8
   end
 
   def right
-    cursor_x = (cursor_x + 1)%8
+    self.cursor_x = (cursor_x + 1)%8
   end
 
   def select_square
-    start_x, start_y = cursor_x, cursor_y
+    self.start_x, self.start_y = self.cursor_x, self.cursor_y
+  end
+
+  def make_move(color)
+    return if self.start_x.nil?
+    move_piece([self.start_x,self.start_y],[self.cursor_x,self.cursor_y], color)
   end
 
   def make_piece(piece_class,x,y, color)
     self[[x,y]] = piece_class.new([x,y], color, self)
   end
+
+
 
   def make_symmetrical_pieces(piece_class, x, y)
     make_piece(piece_class, x, y, :black)
@@ -82,10 +91,16 @@ class Board
           string = square.to_s
         end
 
-        if (x+y) % 2 == 0
-          print (string+" ").light_black.on_white
+        if [x,y] == [self.start_x, self.start_y]
+          string = string.blink
+        end
+
+        if [x,y] == [cursor_x, cursor_y]
+          print (string+" ").on_red
+        elsif (x+y) % 2 == 0
+          print (string+" ").on_white
         else
-          print (string+" ").light_black.on_black
+          print (string+" ").on_black
         end
       end
       puts
@@ -107,6 +122,11 @@ class Board
       duped_grid << new_row
     end
     out.grid = duped_grid
+    out.cursor_x = cursor_x
+    out.cursor_y = cursor_y
+    out.start_x = start_x
+    out.start_y = start_y
+
     out
   end
 

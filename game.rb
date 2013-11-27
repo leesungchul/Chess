@@ -16,7 +16,7 @@ class Game
     until @board.checkmate?(current_player.color)
       @board.render
       begin
-        start_pos, end_pos = current_player.get_move
+        start_pos, end_pos = current_player.get_move(@board)
         @board.move_piece(start_pos, end_pos, current_player.color)
       rescue RuntimeError => error
         puts error.message
@@ -25,6 +25,7 @@ class Game
 
       current_player = current_player == @player1 ? @player2 : @player1
     end
+    print "Checkmate!"
   end
 end
 
