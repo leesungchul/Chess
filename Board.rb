@@ -1,10 +1,12 @@
 require "colorize"
 `ls`.split("\n").each do |file|
-  next if file == "board.rb"
+  next if file == "board.rb" or file == "game.rb"
   require_relative file
 end
 
 class Board
+  attr_accessor :grid
+
   def initialize
     @grid = Array.new(8) { Array.new(8) { :empty } }
 
@@ -65,6 +67,24 @@ class Board
     end
   end
 
+  def dup
+    out = Board.new
+    duped_grid = []
+    @grid.each do |row|
+      new_row = []
+      row.each do |square|
+        if square.is_a? Symbol
+          new_row << square
+        else
+          new_row << square.dup
+        end
+      end
+      duped_grid << new_row
+    end
+    out.grid = duped_grid
+    out
+  end
+
   def move_piece(start_pos, end_pos, color)
     raise RuntimeError.new("Empty Square") if self[start_pos] == :empty
     raise RuntimeError.new("Outside of Grid") if self[start_pos].nil?
@@ -100,6 +120,3 @@ class Board
     get_team_pieces(color).map(&:valid_moves).flatten(1).empty?
   end
 end
-
-b = Board.new
-b.render
