@@ -5,10 +5,15 @@ require "colorize"
 end
 
 class Board
-  attr_accessor :grid
+  attr_accessor :grid, :cursor_x, :cursor_y, :start_x, :start_y
 
   def initialize
     @grid = Array.new(8) { Array.new(8) { :empty } }
+    @cursor_x = 0
+    @cursor_y = 0
+    @start_x = nil
+    @start_y = nil
+
 
     make_symmetrical_pieces(Bishop, 2, 0)
     make_symmetrical_pieces(Knight, 1, 0)
@@ -21,6 +26,26 @@ class Board
     make_piece(King, 3, 7, :white)
     make_piece(Queen, 3, 0, :black)
     make_piece(Queen, 4, 7, :white)
+  end
+
+  def up
+    cursor_y = (cursor_y - 1)%8
+  end
+
+  def down
+    cursor_y = (cursor_y + 1)%8
+  end
+
+  def left
+    cursor_x = (cursor_x - 1)%8
+  end
+
+  def right
+    cursor_x = (cursor_x + 1)%8
+  end
+
+  def select_square
+    start_x, start_y = cursor_x, cursor_y
   end
 
   def make_piece(piece_class,x,y, color)
