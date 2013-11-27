@@ -1,5 +1,6 @@
 class Player
   attr_accessor :color
+
   def get_move(board)
     board.start_x = nil
     board.start_y = nil
@@ -28,7 +29,7 @@ class Player
       end
     end
 
-    [[board.start_x,board.start_y],[board.cursor_x,board.cursor_y]]
+    [[board.start_x, board.start_y], [board.cursor_x, board.cursor_y]]
   end
 
   def get_char

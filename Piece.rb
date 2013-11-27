@@ -35,5 +35,4 @@ class Piece
       ! dup_board.check?(self.color)
     end
   end
-
 end

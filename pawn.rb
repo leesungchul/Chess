@@ -2,11 +2,10 @@
 require_relative "Piece.rb"
 
 class Pawn < Piece
-
   def initialize(*args)
     super(*args)
     @start_pos = pos
-    color == :white ? (@dy = -1) : (@dy = 1)
+    @dy = (color == :white ? -1 : 1)
   end
 
   def moves
