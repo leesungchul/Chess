@@ -20,9 +20,15 @@ def server
 end
 
 def recv(place)
-  place.recv(100)
+  STDOUT.puts "recv"
+  x = place.recv(100)
+  place.close
+  x
 end
 
 def send_msg(place,str)
+  STDOUT.puts "send"
   place.send(str,0)
+  STDOUT.puts "recv done"
+  place.close
 end

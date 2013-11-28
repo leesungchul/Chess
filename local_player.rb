@@ -34,6 +34,7 @@ class LocalPlayer
     move = [[board.start_x, board.start_y], [board.cursor_x, board.cursor_y]]
 
     send(move, position)
+    puts "hello world"
 
     move
   end

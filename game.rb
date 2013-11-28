@@ -34,6 +34,6 @@ class Game
 end
 
 if __FILE__ == $0
-  g = Game.new(LocalPlayer.new, RemotePlayer.new, :server)
+  g = Game.new(RemotePlayer.new, LocalPlayer.new, :server)
   g.play
 end
