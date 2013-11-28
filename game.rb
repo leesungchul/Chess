@@ -27,13 +27,13 @@ class Game
       end
 
 
-      current_player = current_player == @player1 ? @player2 : @player1
+      # current_player = current_player == @player1 ? @player2 : @player1
     end
     print "Checkmate!"
   end
 end
 
 if __FILE__ == $0
-  g = Game.new(RemotePlayer.new, LocalPlayer.new, :server)
+  g = Game.new( LocalPlayer.new, RemotePlayer.new, :server)
   g.play
 end

@@ -50,7 +50,6 @@ class LocalPlayer
   end
 
   def send(move, position)
-    p "lol"
     socket = (position == :server ? server : client)
     send_msg(socket, move.inspect)
   end
